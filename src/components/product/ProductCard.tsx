@@ -3,7 +3,6 @@ import { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { cn } from '@/lib/utils';
-import logo from '@/assets/logo.png';
 
 interface ProductCardProps {
   product: Product;
@@ -23,21 +22,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, style }) 
       style={style}
     >
       {/* Image container */}
-      <Link to={`/product/${product.id}`} className="block relative p-4 pb-2">
-        {/* Logo icon */}
-        <div className="absolute top-3 left-3 z-10">
-          <img src={logo} alt="Logo" className="h-6 w-auto" />
-        </div>
-        
+      <Link to={`/product/${product.id}`} className="block relative p-3">
         {/* ON SALE badge */}
         {product.isOffer && (
-          <span className="absolute top-3 right-3 bg-primary text-primary-foreground text-[10px] font-semibold px-2 py-1 rounded">
+          <span className="absolute top-3 right-3 z-10 bg-primary text-primary-foreground text-[10px] font-semibold px-2 py-1 rounded">
             ON SALE
           </span>
         )}
 
         {/* Product image */}
-        <div className="aspect-square flex items-center justify-center mt-4">
+        <div className="aspect-square flex items-center justify-center bg-muted/30 rounded">
           <img
             src={product.image}
             alt={product.name}
@@ -48,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, style }) 
       </Link>
 
       {/* Content */}
-      <div className="px-4 pb-4 space-y-2">
+      <div className="px-3 pb-3 space-y-2">
         {/* Title */}
         <Link to={`/product/${product.id}`}>
           <h3 className="font-medium text-foreground text-sm line-clamp-1 group-hover:text-primary transition-colors">
@@ -65,9 +59,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, style }) 
 
         {/* Price */}
         <div className="flex items-center justify-center gap-2">
-          <span className="text-base font-bold text-primary">Tk {product.price.toFixed(2)}</span>
+          <span className="text-sm font-bold text-primary">Tk {product.price.toFixed(2)}</span>
           {product.originalPrice && (
-            <span className="text-sm text-muted-foreground line-through">
+            <span className="text-xs text-muted-foreground line-through">
               Tk {product.originalPrice.toFixed(2)}
             </span>
           )}
@@ -76,6 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, style }) 
         {/* Quick Add button */}
         <Button
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded"
+          size="sm"
           onClick={() => addToCart(product)}
           disabled={product.stock <= 0}
         >
