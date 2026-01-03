@@ -29,11 +29,30 @@ const PageLoader = () => {
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      {/* Small fast spinner */}
-      <div 
-        className="w-8 h-8 border-2 border-gray-200 border-t-gray-400 rounded-full"
-        style={{ animation: 'spin 0.6s linear infinite' }}
-      ></div>
+      {/* Tapered spinner with SVG */}
+      <svg 
+        className="w-10 h-10"
+        viewBox="0 0 50 50"
+        style={{ animation: 'spin 0.8s linear infinite' }}
+      >
+        <circle
+          cx="25"
+          cy="25"
+          r="20"
+          fill="none"
+          stroke="url(#gradient)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeDasharray="80 45"
+        />
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#d1d5db" stopOpacity="0.2" />
+            <stop offset="50%" stopColor="#6b7280" stopOpacity="1" />
+            <stop offset="100%" stopColor="#d1d5db" stopOpacity="0.2" />
+          </linearGradient>
+        </defs>
+      </svg>
     </div>
   );
 };
