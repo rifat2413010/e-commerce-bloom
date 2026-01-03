@@ -15,8 +15,8 @@ const PageLoader = () => {
       setTimeout(() => {
         setIsLoading(false);
         setFadeOut(false);
-      }, 300);
-    }, 400);
+      }, 200);
+    }, 300);
 
     return () => clearTimeout(timeout);
   }, [location.pathname]);
@@ -25,12 +25,15 @@ const PageLoader = () => {
 
   return (
     <div 
-      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-200 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      {/* Light gray thin spinner */}
-      <div className="w-12 h-12 border-[3px] border-gray-200 border-t-gray-400 rounded-full animate-spin"></div>
+      {/* Small fast spinner */}
+      <div 
+        className="w-8 h-8 border-2 border-gray-200 border-t-gray-400 rounded-full"
+        style={{ animation: 'spin 0.6s linear infinite' }}
+      ></div>
     </div>
   );
 };
