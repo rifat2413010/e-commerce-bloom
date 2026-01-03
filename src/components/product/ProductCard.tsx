@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Eye } from 'lucide-react';
 import { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { cn } from '@/lib/utils';
+import logo from '@/assets/logo.png';
 
 interface ProductCardProps {
   product: Product;
@@ -12,92 +12,74 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, className, style }) => {
-  const { addToCart, isInCart } = useCart();
-  const inCart = isInCart(product.id);
+  const { addToCart } = useCart();
 
   return (
     <article 
       className={cn(
-        "group bg-card rounded-2xl shadow-card hover:shadow-lg transition-all duration-300 overflow-hidden",
+        "group bg-card rounded-lg border border-border hover:shadow-lg transition-all duration-300 overflow-hidden",
         className
       )}
       style={style}
     >
-      {/* Image */}
-      <Link to={`/product/${product.id}`} className="block relative aspect-square overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          loading="lazy"
-        />
+      {/* Image container */}
+      <Link to={`/product/${product.id}`} className="block relative p-4 pb-2">
+        {/* Logo icon */}
+        <div className="absolute top-3 left-3 z-10">
+          <img src={logo} alt="Logo" className="h-6 w-auto" />
+        </div>
         
-        {/* Offer badge */}
-        {product.isOffer && product.offerPercent && (
-          <span className="absolute top-3 left-3 bg-offer text-offer-foreground text-xs font-bold px-2 py-1 rounded-lg">
-            {product.offerPercent}% ছাড়
+        {/* ON SALE badge */}
+        {product.isOffer && (
+          <span className="absolute top-3 right-3 bg-primary text-primary-foreground text-[10px] font-semibold px-2 py-1 rounded">
+            ON SALE
           </span>
         )}
 
-        {/* Best seller badge */}
-        {product.isBestSeller && (
-          <span className="absolute top-3 right-3 bg-success text-success-foreground text-xs font-bold px-2 py-1 rounded-lg">
-            বেস্ট সেলার
-          </span>
-        )}
-
-        {/* Quick view overlay */}
-        <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-          <Button variant="secondary" size="sm" className="gap-1">
-            <Eye className="h-4 w-4" />
-            দেখুন
-          </Button>
+        {/* Product image */}
+        <div className="aspect-square flex items-center justify-center mt-4">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
+          />
         </div>
       </Link>
 
       {/* Content */}
-      <div className="p-4 space-y-3">
-        {/* Category */}
-        <p className="text-xs text-muted-foreground uppercase tracking-wide">
-          {product.category}
-        </p>
-
+      <div className="px-4 pb-4 space-y-2">
         {/* Title */}
         <Link to={`/product/${product.id}`}>
-          <h3 className="font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+          <h3 className="font-medium text-foreground text-sm line-clamp-1 group-hover:text-primary transition-colors">
             {product.name}
           </h3>
         </Link>
 
-        {/* Unit */}
-        <p className="text-sm text-muted-foreground">{product.unit}</p>
+        {/* Category badge */}
+        <div className="flex justify-center">
+          <span className="bg-primary text-primary-foreground text-[10px] font-medium px-3 py-0.5 rounded">
+            {product.category}
+          </span>
+        </div>
 
         {/* Price */}
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-primary">৳{product.price}</span>
+        <div className="flex items-center justify-center gap-2">
+          <span className="text-base font-bold text-primary">Tk {product.price.toFixed(2)}</span>
           {product.originalPrice && (
             <span className="text-sm text-muted-foreground line-through">
-              ৳{product.originalPrice}
+              Tk {product.originalPrice.toFixed(2)}
             </span>
           )}
         </div>
 
-        {/* Stock status */}
-        {product.stock <= 0 ? (
-          <p className="text-sm text-destructive font-medium">স্টকে নেই</p>
-        ) : product.stock <= 10 ? (
-          <p className="text-sm text-warning font-medium">মাত্র {product.stock}টি বাকি</p>
-        ) : null}
-
-        {/* Add to cart button */}
+        {/* Quick Add button */}
         <Button
-          variant={inCart ? "secondary" : "gradient"}
-          className="w-full"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded"
           onClick={() => addToCart(product)}
           disabled={product.stock <= 0}
         >
-          <ShoppingCart className="h-4 w-4" />
-          {inCart ? 'আবার যোগ করুন' : 'কার্টে যোগ করুন'}
+          Quick Add
         </Button>
       </div>
     </article>
