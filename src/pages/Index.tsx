@@ -1,6 +1,5 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import FloatingButtons from '@/components/layout/FloatingButtons';
 import HeroSection from '@/components/home/HeroSection';
 import AllProductsSection from '@/components/home/AllProductsSection';
 
@@ -15,7 +14,6 @@ const Index = () => {
       </main>
 
       <Footer />
-      <FloatingButtons />
     </div>
   );
 };
