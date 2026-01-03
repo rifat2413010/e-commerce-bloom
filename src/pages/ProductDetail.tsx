@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Minus, Plus, Heart, ArrowRightLeft, Search, MessageCircle, Shield, Truck, Leaf } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import FloatingButtons from '@/components/layout/FloatingButtons';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { products, siteSettings } from '@/data/mockData';
@@ -324,7 +323,6 @@ const ProductDetail = () => {
       </main>
 
       <Footer />
-      <FloatingButtons />
     </div>
   );
 };
