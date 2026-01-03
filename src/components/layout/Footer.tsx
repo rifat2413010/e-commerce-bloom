@@ -19,16 +19,8 @@ const Footer = () => {
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Vai Best Bazar is a leading e-commerce platform committed to delivering safe, healthy, and organic 
-              food products across Bangladesh. Renowned for its dedication to quality, Vai Best Bazar offers a 
-              diverse range of health-focused items, including premium mustard oil, pure ghee, organic honey, 
-              dates, chia seeds, and an assortment of nuts. Each product is carefully sourced and crafted to ensure 
-              maximum health benefits, meeting the highest standards of purity and freshness.
-            </p>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              With a focus on convenience, Vai Best Bazar operates primarily online, bringing the goodness of 
-              nature straight to your doorstep. Whether you&apos;re seeking to elevate your wellness journey or simply 
-              enjoy natural, wholesome foods, Vai Best Bazar is your go-to destination for authentic, trustworthy 
-              products.
+              food products across Bangladesh. We ensure maximum health benefits while meeting the highest standards 
+              of purity and freshness.
             </p>
           </div>
 
