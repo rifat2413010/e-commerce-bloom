@@ -1,17 +1,94 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Search, Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/contexts/CartContext';
-import { useState } from 'react';
-import { categories, siteSettings } from '@/data/mockData';
+import { useState, useRef, useEffect } from 'react';
+import { categories, siteSettings, products } from '@/data/mockData';
 import logo from '@/assets/logo.png';
 
 const Header = () => {
   const { getItemCount } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showResults, setShowResults] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const mobileSearchRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const itemCount = getItemCount();
+
+  // Filter products based on search query
+  const searchResults = searchQuery.trim().length > 0
+    ? products.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.nameEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 5)
+    : [];
+
+  // Close search results when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchRef.current && !searchRef.current.contains(event.target as Node) &&
+        mobileSearchRef.current && !mobileSearchRef.current.contains(event.target as Node)
+      ) {
+        setShowResults(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleProductClick = (productId: string) => {
+    setSearchQuery('');
+    setShowResults(false);
+    navigate(`/product/${productId}`);
+  };
+
+  const SearchResults = () => (
+    <>
+      {showResults && searchQuery.trim().length > 0 && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 overflow-hidden">
+          {searchResults.length > 0 ? (
+            <ul className="py-2">
+              {searchResults.map(product => (
+                <li key={product.id}>
+                  <button
+                    onClick={() => handleProductClick(product.id)}
+                    className="w-full flex items-center gap-3 px-4 py-2 hover:bg-muted transition-colors text-left"
+                  >
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-10 h-10 object-contain rounded bg-muted/50"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">
+                        {product.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {product.category}
+                      </p>
+                    </div>
+                    <span className="text-sm font-bold text-primary shrink-0">
+                      ৳{product.price}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="px-4 py-6 text-center text-muted-foreground">
+              <p className="text-sm">কোনো পণ্য পাওয়া যায়নি</p>
+              <p className="text-xs mt-1">অন্য কিছু খুঁজুন</p>
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
 
   return (
     <header className="z-50">
@@ -25,13 +102,17 @@ const Header = () => {
             </Link>
 
             {/* Search - Desktop */}
-            <div className="hidden md:flex flex-1 max-w-xl">
+            <div className="hidden md:flex flex-1 max-w-xl" ref={searchRef}>
               <div className="relative w-full">
                 <Input
                   type="search"
                   placeholder="পণ্য খুঁজুন..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowResults(true);
+                  }}
+                  onFocus={() => setShowResults(true)}
                   className="pr-12 h-11 rounded-full border-2 border-primary/20 focus:border-primary bg-muted/50"
                 />
                 <Button 
@@ -40,6 +121,7 @@ const Header = () => {
                 >
                   <Search className="h-4 w-4" />
                 </Button>
+                <SearchResults />
               </div>
             </div>
 
@@ -81,13 +163,17 @@ const Header = () => {
           </div>
 
           {/* Search - Mobile */}
-          <div className="md:hidden mt-3">
+          <div className="md:hidden mt-3" ref={mobileSearchRef}>
             <div className="relative">
               <Input
                 type="search"
                 placeholder="পণ্য খুঁজুন..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowResults(true);
+                }}
+                onFocus={() => setShowResults(true)}
                 className="pr-12 h-10 rounded-full border-2 border-primary/20 bg-muted/50"
               />
               <Button 
@@ -96,6 +182,7 @@ const Header = () => {
               >
                 <Search className="h-4 w-4" />
               </Button>
+              <SearchResults />
             </div>
           </div>
         </div>
