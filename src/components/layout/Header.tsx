@@ -14,7 +14,7 @@ const Header = () => {
   const itemCount = getItemCount();
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="z-50">
       {/* Main header */}
       <div className="bg-card shadow-card">
         <div className="container py-3">
