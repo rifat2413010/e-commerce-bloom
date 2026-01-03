@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Minus, Plus, Heart, ArrowRightLeft, Search, MessageCircle, Shield, Truck, Leaf } from 'lucide-react';
 import Header from '@/components/layout/Header';
@@ -12,6 +12,7 @@ import logo from '@/assets/logo.png';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const product = products.find(p => p.id === id);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string>('500gm');
@@ -43,6 +44,7 @@ const ProductDetail = () => {
   const handleAddToCart = () => {
     addToCart(product, quantity, selectedSize);
     setQuantity(1);
+    navigate('/checkout');
   };
 
   const clearSelection = () => {
