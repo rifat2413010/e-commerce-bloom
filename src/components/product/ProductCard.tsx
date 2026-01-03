@@ -50,12 +50,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, style }) 
           </h3>
         </Link>
 
-        {/* Category badge */}
-        <div className="flex justify-center">
-          <span className="bg-primary text-primary-foreground text-[10px] font-medium px-3 py-0.5 rounded">
-            {product.category}
-          </span>
-        </div>
 
         {/* Price */}
         <div className="flex items-center justify-center gap-2">
