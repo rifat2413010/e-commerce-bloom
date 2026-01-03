@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 bg-card shadow-card">
       {/* Top bar */}
-      <div className="bg-gradient-hero">
+      <div className="bg-primary">
         <div className="container py-2 flex items-center justify-between text-primary-foreground text-sm">
           <p className="hidden md:block">
             সরাসরি কৃষক থেকে আপনার ঘরে — খাঁটি ও প্রাকৃতিক পণ্য
@@ -112,7 +112,7 @@ const Header = () => {
       {/* Categories nav */}
       <nav className="border-t border-border bg-secondary/50">
         <div className="container">
-          <ul className="hidden md:flex items-center gap-1 py-2 overflow-x-auto">
+          <ul className="hidden md:flex items-center justify-center gap-1 py-2 overflow-x-auto">
             <li>
               <Link 
                 to="/"
