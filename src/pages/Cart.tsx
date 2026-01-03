@@ -60,7 +60,9 @@ const Cart = () => {
                           {item.product.name}
                         </h3>
                       </Link>
-                      <p className="text-sm text-muted-foreground">{item.product.unit}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {item.selectedSize ? item.selectedSize : item.product.unit}
+                      </p>
                       <p className="text-lg font-bold text-primary mt-1">
                         ৳{item.product.price}
                       </p>
@@ -71,7 +73,7 @@ const Cart = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.selectedSize)}
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
@@ -81,7 +83,7 @@ const Cart = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.selectedSize)}
                             disabled={item.quantity >= item.product.stock}
                           >
                             <Plus className="h-3 w-3" />
@@ -92,7 +94,7 @@ const Cart = () => {
                           variant="ghost"
                           size="sm"
                           className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                          onClick={() => removeFromCart(item.product.id)}
+                          onClick={() => removeFromCart(item.product.id, item.selectedSize)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
