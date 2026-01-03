@@ -171,7 +171,7 @@ const ProductDetail = () => {
 
               {/* Order button */}
               <Button
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-base"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-base transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
                 onClick={handleAddToCart}
                 disabled={product.stock <= 0}
               >
@@ -182,7 +182,7 @@ const ProductDetail = () => {
               <div className="space-y-2">
                 <a 
                   href="#" 
-                  className="flex items-center justify-center gap-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg transition-colors"
+                  className="flex items-center justify-center gap-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
                 >
                   <MessageCircle className="h-5 w-5" />
                   Chat with us on messenger
@@ -192,7 +192,7 @@ const ProductDetail = () => {
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg transition-colors"
+                  className="flex items-center justify-center gap-2 w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
                 >
                   <MessageCircle className="h-5 w-5" />
                   Chat with us on WhatsApp
@@ -283,25 +283,25 @@ const ProductDetail = () => {
           </div>
 
           {/* Features Section */}
-          <div className="mt-12 grid grid-cols-3 gap-6">
-            <div className="text-center p-6 border border-border rounded-lg">
-              <div className="h-12 w-12 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-3">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="group text-center p-6 border border-border rounded-lg transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1 cursor-pointer">
+              <div className="h-12 w-12 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
                 <Shield className="h-6 w-6 text-green-600" />
               </div>
               <h4 className="font-semibold text-foreground mb-1">নিরাপদ পেমেন্ট</h4>
               <p className="text-sm text-muted-foreground">ডেলিভার পেমেন্ট বাংলা গড়ে পরিশোধ গাড়ে গিয়ে</p>
             </div>
             
-            <div className="text-center p-6 border border-border rounded-lg">
-              <div className="h-12 w-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-3">
+            <div className="group text-center p-6 border border-border rounded-lg transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1 cursor-pointer">
+              <div className="h-12 w-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
                 <Truck className="h-6 w-6 text-primary" />
               </div>
               <h4 className="font-semibold text-foreground mb-1">দ্রুত ডেলিভারি</h4>
               <p className="text-sm text-muted-foreground">৩-৫ দিনের মধ্যে সারাদেশে হোম ডেলি গলার</p>
             </div>
             
-            <div className="text-center p-6 border border-border rounded-lg">
-              <div className="h-12 w-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-3">
+            <div className="group text-center p-6 border border-border rounded-lg transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1 cursor-pointer">
+              <div className="h-12 w-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
                 <Leaf className="h-6 w-6 text-primary" />
               </div>
               <h4 className="font-semibold text-primary mb-1">১০০% ন্যাচারাল</h4>
