@@ -4,9 +4,9 @@ import { useToast } from '@/hooks/use-toast';
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (product: Product, quantity?: number) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  addToCart: (product: Product, quantity?: number, selectedSize?: string) => void;
+  removeFromCart: (productId: string, selectedSize?: string) => void;
+  updateQuantity: (productId: string, quantity: number, selectedSize?: string) => void;
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;
@@ -26,40 +26,46 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.setItem('cart', JSON.stringify(items));
   }, [items]);
 
-  const addToCart = (product: Product, quantity = 1) => {
+  const addToCart = (product: Product, quantity = 1, selectedSize?: string) => {
     setItems(prev => {
-      const existing = prev.find(item => item.product.id === product.id);
+      const existing = prev.find(
+        item => item.product.id === product.id && item.selectedSize === selectedSize
+      );
       if (existing) {
         return prev.map(item =>
-          item.product.id === product.id
+          item.product.id === product.id && item.selectedSize === selectedSize
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-      return [...prev, { product, quantity }];
+      return [...prev, { product, quantity, selectedSize }];
     });
     toast({
       title: "কার্টে যোগ হয়েছে",
-      description: `${product.name} কার্টে যোগ করা হয়েছে`,
+      description: `${product.name}${selectedSize ? ` (${selectedSize})` : ''} কার্টে যোগ করা হয়েছে`,
     });
   };
 
-  const removeFromCart = (productId: string) => {
-    setItems(prev => prev.filter(item => item.product.id !== productId));
+  const removeFromCart = (productId: string, selectedSize?: string) => {
+    setItems(prev => prev.filter(
+      item => !(item.product.id === productId && item.selectedSize === selectedSize)
+    ));
     toast({
       title: "সরানো হয়েছে",
       description: "পণ্যটি কার্ট থেকে সরানো হয়েছে",
     });
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (productId: string, quantity: number, selectedSize?: string) => {
     if (quantity <= 0) {
-      removeFromCart(productId);
+      removeFromCart(productId, selectedSize);
       return;
     }
     setItems(prev =>
       prev.map(item =>
-        item.product.id === productId ? { ...item, quantity } : item
+        item.product.id === productId && item.selectedSize === selectedSize
+          ? { ...item, quantity }
+          : item
       )
     );
   };

@@ -14,7 +14,10 @@ const ProductDetail = () => {
   const { id } = useParams();
   const product = products.find(p => p.id === id);
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<string>('500gm');
   const { addToCart } = useCart();
+
+  const sizeOptions = ['250gm', '500gm'];
 
   if (!product) {
     return (
@@ -38,8 +41,12 @@ const ProductDetail = () => {
   ).slice(0, 5);
 
   const handleAddToCart = () => {
-    addToCart(product, quantity);
+    addToCart(product, quantity, selectedSize);
     setQuantity(1);
+  };
+
+  const clearSelection = () => {
+    setSelectedSize('');
   };
 
   const whatsappLink = `https://wa.me/${siteSettings.whatsapp}?text=আমি ${product.name} সম্পর্কে জানতে চাই`;
@@ -107,16 +114,28 @@ const ProductDetail = () => {
 
               {/* Size options */}
               <div className="flex gap-2">
-                <button className="px-4 py-1.5 border border-border rounded text-sm hover:border-primary transition-colors">
-                  250gm
-                </button>
-                <button className="px-4 py-1.5 border border-primary bg-primary/5 rounded text-sm text-primary">
-                  500gm
-                </button>
+                {sizeOptions.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={`px-4 py-1.5 border rounded text-sm transition-colors ${
+                      selectedSize === size
+                        ? 'border-primary bg-primary text-primary-foreground'
+                        : 'border-border hover:border-primary'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
               </div>
 
               {/* Clear selection */}
-              <button className="text-sm text-muted-foreground hover:text-primary">Clear</button>
+              <button 
+                onClick={clearSelection}
+                className="text-sm text-muted-foreground hover:text-primary"
+              >
+                Clear
+              </button>
 
               {/* Availability */}
               <div className="flex items-center gap-2">

@@ -36,6 +36,7 @@ export interface Category {
 export interface CartItem {
   product: Product;
   quantity: number;
+  selectedSize?: string;
 }
 
 export interface Order {

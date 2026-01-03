@@ -221,8 +221,8 @@ const Checkout = () => {
                   
                   {/* Items */}
                   <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
-                    {items.map(item => (
-                      <div key={item.product.id} className="flex gap-3">
+                    {items.map((item, index) => (
+                      <div key={`${item.product.id}-${item.selectedSize}-${index}`} className="flex gap-3">
                         <img
                           src={item.product.image}
                           alt={item.product.name}
@@ -233,6 +233,7 @@ const Checkout = () => {
                             {item.product.name}
                           </p>
                           <p className="text-xs text-muted-foreground">
+                            {item.selectedSize && <span className="text-primary">{item.selectedSize} • </span>}
                             {item.quantity} x ৳{item.product.price}
                           </p>
                         </div>
