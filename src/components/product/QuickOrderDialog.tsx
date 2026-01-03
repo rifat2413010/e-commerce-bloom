@@ -71,7 +71,7 @@ const QuickOrderDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-[#f5f0e8]">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-[#f5f0e8] data-[state=open]:animate-scale-in data-[state=closed]:animate-scale-out">
         <DialogHeader className="text-center pb-4">
           <DialogTitle className="text-2xl md:text-3xl font-bold text-foreground">
             সহজ অর্ডার প্রক্রিয়া
