@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowRight } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import FloatingButtons from '@/components/layout/FloatingButtons';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { siteSettings } from '@/data/mockData';
@@ -155,7 +154,6 @@ const Cart = () => {
       </main>
 
       <Footer />
-      <FloatingButtons />
     </div>
   );
 };

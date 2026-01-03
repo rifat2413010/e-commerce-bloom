@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { CreditCard, MapPin, Phone, User, FileText } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import FloatingButtons from '@/components/layout/FloatingButtons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -278,7 +277,6 @@ const Checkout = () => {
       </main>
 
       <Footer />
-      <FloatingButtons />
     </div>
   );
 };
