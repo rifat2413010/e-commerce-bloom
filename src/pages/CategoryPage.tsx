@@ -2,7 +2,6 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import FloatingButtons from '@/components/layout/FloatingButtons';
 import { Button } from '@/components/ui/button';
 import ProductCard from '@/components/product/ProductCard';
 import { products, categories } from '@/data/mockData';
@@ -81,7 +80,6 @@ const CategoryPage = () => {
       </main>
 
       <Footer />
-      <FloatingButtons />
     </div>
   );
 };
