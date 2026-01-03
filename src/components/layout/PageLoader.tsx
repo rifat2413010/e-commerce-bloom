@@ -50,9 +50,18 @@ const PageLoader = () => {
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      {/* Logo with pulse animation */}
-      <div className="animate-pulse mb-6">
-        <img src={logo} alt="Loading..." className="h-16 w-auto" />
+      {/* Spinning loader container */}
+      <div className="relative mb-6">
+        {/* Spinning ring */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-24 h-24 border-4 border-muted rounded-full"></div>
+          <div className="absolute w-24 h-24 border-4 border-transparent border-t-primary rounded-full animate-spin"></div>
+        </div>
+        
+        {/* Logo in center */}
+        <div className="w-24 h-24 flex items-center justify-center">
+          <img src={logo} alt="Loading..." className="h-12 w-auto" />
+        </div>
       </div>
       
       {/* Loading bar */}
@@ -64,7 +73,7 @@ const PageLoader = () => {
       </div>
       
       {/* Loading text */}
-      <p className="mt-4 text-sm text-muted-foreground animate-pulse">
+      <p className="mt-4 text-sm text-muted-foreground">
         লোড হচ্ছে...
       </p>
     </div>
