@@ -25,12 +25,12 @@ const PageLoader = () => {
 
   return (
     <div 
-      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-white/90 backdrop-blur-sm transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-opacity duration-300 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      {/* Simple spinner */}
-      <div className="w-10 h-10 border-4 border-gray-200 border-t-gray-800 rounded-full animate-spin"></div>
+      {/* Light gray thin spinner */}
+      <div className="w-12 h-12 border-[3px] border-gray-200 border-t-gray-400 rounded-full animate-spin"></div>
     </div>
   );
 };
