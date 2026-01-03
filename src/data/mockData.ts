@@ -1,10 +1,10 @@
 import { Product, Category, SiteSettings } from '@/types';
 
 export const siteSettings: SiteSettings = {
-  siteName: "ঘরের বাজার",
+  siteName: "Vai Best Bazar",
   phone: "09642922922",
   whatsapp: "8801712345678",
-  email: "info@ghorerbazar.com",
+  email: "info@vaibestbazar.com",
   address: "ঢাকা, বাংলাদেশ",
   deliveryCharge: 60,
   freeDeliveryMin: 1000,
