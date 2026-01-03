@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { Minus, Plus, Heart, ArrowRightLeft, Search, MessageCircle, Shield, Truck, Leaf } from 'lucide-react';
 import Header from '@/components/layout/Header';
@@ -8,14 +8,15 @@ import { useCart } from '@/contexts/CartContext';
 import { products, siteSettings } from '@/data/mockData';
 import ProductCard from '@/components/product/ProductCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import QuickOrderDialog from '@/components/product/QuickOrderDialog';
 import logo from '@/assets/logo.png';
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const product = products.find(p => p.id === id);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string>('500gm');
+  const [showQuickOrder, setShowQuickOrder] = useState(false);
   const { addToCart } = useCart();
 
   const sizeOptions = ['250gm', '500gm'];
@@ -41,10 +42,13 @@ const ProductDetail = () => {
     p => p.id !== product.id && p.isActive
   ).slice(0, 5);
 
+  const handleOrderNow = () => {
+    setShowQuickOrder(true);
+  };
+
   const handleAddToCart = () => {
     addToCart(product, quantity, selectedSize);
     setQuantity(1);
-    navigate('/checkout');
   };
 
   const clearSelection = () => {
@@ -192,7 +196,7 @@ const ProductDetail = () => {
               {/* Order button */}
               <Button
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-base transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
-                onClick={handleAddToCart}
+                onClick={handleOrderNow}
                 disabled={product.stock <= 0}
               >
                 অর্ডার করুন
@@ -344,6 +348,15 @@ const ProductDetail = () => {
       </main>
 
       <Footer />
+
+      {/* Quick Order Dialog */}
+      <QuickOrderDialog
+        open={showQuickOrder}
+        onOpenChange={setShowQuickOrder}
+        product={product}
+        quantity={quantity}
+        selectedSize={selectedSize}
+      />
     </div>
   );
 };
