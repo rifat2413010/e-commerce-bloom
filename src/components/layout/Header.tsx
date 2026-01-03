@@ -20,11 +20,8 @@ const Header = () => {
         <div className="container py-3">
           <div className="flex items-center justify-between gap-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 shrink-0">
-              <img src={logo} alt="Logo" className="h-10 w-10 md:h-12 md:w-12" />
-              <span className="text-xl md:text-2xl font-bold text-primary hidden sm:block">
-                {siteSettings.siteName}
-              </span>
+            <Link to="/" className="shrink-0">
+              <img src={logo} alt="Vai Best Bazar" className="h-12 md:h-14" />
             </Link>
 
             {/* Search - Desktop */}
