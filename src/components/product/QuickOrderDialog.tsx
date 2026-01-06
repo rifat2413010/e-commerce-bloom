@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Product } from '@/types';
 import { useToast } from '@/hooks/use-toast';
-
+import { supabase } from '@/integrations/supabase/client';
 interface QuickOrderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -47,7 +47,9 @@ const QuickOrderDialog = ({
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.phone || !formData.address) {
@@ -59,14 +61,60 @@ const QuickOrderDialog = ({
       return;
     }
 
-    // Here you would normally send the order to a backend
-    toast({
-      title: "অর্ডার সফল!",
-      description: "আপনার অর্ডার কনফার্ম হয়েছে। শীঘ্রই যোগাযোগ করা হবে।",
-    });
-    
-    onOpenChange(false);
-    navigate('/order-success');
+    setIsSubmitting(true);
+
+    try {
+      // Create order with items using secure server function
+      const { data: orderId, error } = await supabase.rpc('create_order_with_items', {
+        _customer_name: formData.name,
+        _customer_phone: formData.phone,
+        _customer_email: null,
+        _customer_address: formData.address,
+        _customer_city: formData.deliveryArea === 'inside' ? 'ঢাকা' : null,
+        _customer_district: null,
+        _payment_method: 'cod',
+        _notes: null,
+        _delivery_charge: deliveryCharge,
+        _items: [{
+          product_id: product.id,
+          quantity: quantity,
+          selected_size: selectedSize || null
+        }]
+      });
+
+      if (error) throw error;
+
+      // Fetch the created order to get order_number
+      const { data: order, error: fetchError } = await supabase
+        .from('orders')
+        .select('order_number')
+        .eq('id', orderId)
+        .single();
+
+      if (fetchError) throw fetchError;
+
+      toast({
+        title: "অর্ডার সফল!",
+        description: `অর্ডার নম্বর: ${order.order_number}`,
+      });
+      
+      onOpenChange(false);
+      navigate('/order-success', { 
+        state: { 
+          orderNumber: order.order_number, 
+          customer: { name: formData.name, phone: formData.phone, address: formData.address } 
+        } 
+      });
+    } catch (error: any) {
+      console.error('Order creation error:', error);
+      toast({
+        title: "অর্ডার ব্যর্থ হয়েছে",
+        description: error.message || "একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -212,8 +260,9 @@ const QuickOrderDialog = ({
               <Button
                 type="submit"
                 className="w-full h-12 bg-amber-700 hover:bg-amber-800 text-white text-base"
+                disabled={isSubmitting}
               >
-                অর্ডার কনফার্ম করুন
+                {isSubmitting ? 'প্রসেস হচ্ছে...' : 'অর্ডার কনফার্ম করুন'}
               </Button>
 
               <p className="text-xs text-center text-muted-foreground">

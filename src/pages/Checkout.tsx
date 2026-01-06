@@ -11,7 +11,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
 import { siteSettings } from '@/data/mockData';
 import { CustomerInfo } from '@/types';
-
+import { supabase } from '@/integrations/supabase/client';
 const Checkout = () => {
   const navigate = useNavigate();
   const { items, getTotal, clearCart } = useCart();
@@ -51,19 +51,59 @@ const Checkout = () => {
 
     setIsSubmitting(true);
 
-    // Simulate order processing
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // Create order with items using secure server function
+      const { data: orderId, error } = await supabase.rpc('create_order_with_items', {
+        _customer_name: formData.name,
+        _customer_phone: formData.phone,
+        _customer_email: formData.email || null,
+        _customer_address: formData.address,
+        _customer_city: formData.city,
+        _customer_district: formData.district || null,
+        _payment_method: 'cod',
+        _notes: formData.notes || null,
+        _delivery_charge: deliveryCharge,
+        _items: items.map(item => ({
+          product_id: item.product.id,
+          quantity: item.quantity,
+          selected_size: item.selectedSize || null
+        }))
+      });
 
-    const orderNumber = `ORD-${Date.now().toString(36).toUpperCase()}`;
-    
-    clearCart();
-    
-    toast({
-      title: "অর্ডার সফল হয়েছে!",
-      description: `অর্ডার নম্বর: ${orderNumber}`,
-    });
+      if (error) throw error;
 
-    navigate('/order-success', { state: { orderNumber, customer: formData } });
+      // Fetch the created order to get order_number
+      const { data: order, error: fetchError } = await supabase
+        .from('orders')
+        .select('order_number')
+        .eq('id', orderId)
+        .single();
+
+      if (fetchError) throw fetchError;
+      
+      clearCart();
+      
+      toast({
+        title: "অর্ডার সফল হয়েছে!",
+        description: `অর্ডার নম্বর: ${order.order_number}`,
+      });
+
+      navigate('/order-success', { 
+        state: { 
+          orderNumber: order.order_number, 
+          customer: formData 
+        } 
+      });
+    } catch (error: any) {
+      console.error('Order creation error:', error);
+      toast({
+        title: "অর্ডার ব্যর্থ হয়েছে",
+        description: error.message || "একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (items.length === 0) {
