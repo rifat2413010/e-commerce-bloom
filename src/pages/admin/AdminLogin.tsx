@@ -19,9 +19,10 @@ const AdminLogin: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   
-  const { signIn, isAdmin, user, isLoading: authLoading } = useAuth();
+  const { signIn, signUp, isAdmin, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -50,26 +51,49 @@ const AdminLogin: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await signIn(email, password);
+      if (isSignUp) {
+        const { error } = await signUp(email, password);
 
-      if (error) {
+        if (error) {
+          let message = error.message;
+          if (error.message.includes('already registered')) {
+            message = 'This email is already registered. Please sign in instead.';
+          }
+          toast({
+            title: 'Sign Up Failed',
+            description: message,
+            variant: 'destructive',
+          });
+          return;
+        }
+
         toast({
-          title: 'Login Failed',
-          description: error.message === 'Invalid login credentials' 
-            ? 'Invalid email or password' 
-            : error.message,
-          variant: 'destructive',
+          title: 'Account Created!',
+          description: 'Your account has been created. Please contact the administrator to get admin access.',
         });
-        return;
+        setIsSignUp(false);
+      } else {
+        const { error } = await signIn(email, password);
+
+        if (error) {
+          toast({
+            title: 'Login Failed',
+            description: error.message === 'Invalid login credentials' 
+              ? 'Invalid email or password' 
+              : error.message,
+            variant: 'destructive',
+          });
+          return;
+        }
+
+        // Wait for auth state to update and check admin status
+        setTimeout(() => {
+          toast({
+            title: 'Login Successful',
+            description: 'Redirecting to admin dashboard...',
+          });
+        }, 500);
       }
-
-      // Wait for auth state to update and check admin status
-      setTimeout(() => {
-        toast({
-          title: 'Login Successful',
-          description: 'Redirecting to admin dashboard...',
-        });
-      }, 500);
     } catch (error) {
       toast({
         title: 'Error',
@@ -96,9 +120,13 @@ const AdminLogin: React.FC = () => {
           <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
             <ShieldCheck className="w-8 h-8 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            {isSignUp ? 'Create Admin Account' : 'Admin Login'}
+          </CardTitle>
           <CardDescription>
-            Enter your credentials to access the admin panel
+            {isSignUp 
+              ? 'Create an account to request admin access' 
+              : 'Enter your credentials to access the admin panel'}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -156,12 +184,27 @@ const AdminLogin: React.FC = () => {
               {isLoading ? (
                 <>
                   <span className="animate-spin mr-2">⏳</span>
-                  Signing in...
+                  {isSignUp ? 'Creating Account...' : 'Signing in...'}
                 </>
               ) : (
-                'Sign In'
+                isSignUp ? 'Create Account' : 'Sign In'
               )}
             </Button>
+
+            <div className="text-center pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setErrors({});
+                }}
+                className="text-sm text-primary hover:underline"
+              >
+                {isSignUp 
+                  ? 'Already have an account? Sign In' 
+                  : "Don't have an account? Sign Up"}
+              </button>
+            </div>
           </form>
         </CardContent>
       </Card>
