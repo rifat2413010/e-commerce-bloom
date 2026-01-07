@@ -64,6 +64,9 @@ const QuickOrderDialog = ({
     setIsSubmitting(true);
 
     try {
+      // Check if product.id is a valid UUID format, otherwise use null
+      const isValidUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(product.id);
+      
       // Create order with items using secure server function
       const { data: orderId, error } = await supabase.rpc('create_order_with_items', {
         _customer_name: formData.name,
@@ -76,7 +79,10 @@ const QuickOrderDialog = ({
         _notes: null,
         _delivery_charge: deliveryCharge,
         _items: [{
-          product_id: product.id,
+          product_id: isValidUUID ? product.id : null,
+          product_name: product.name,
+          product_image: product.image,
+          unit_price: product.price,
           quantity: quantity,
           selected_size: selectedSize || null
         }]
