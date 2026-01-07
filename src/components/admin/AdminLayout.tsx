@@ -10,6 +10,7 @@ import {
   ShoppingCart, 
   Settings, 
   FileText,
+  Users,
   LogOut,
   Menu,
   X,
@@ -41,6 +42,11 @@ const menuItems = [
     name: 'Orders', 
     icon: ShoppingCart, 
     path: '/admin2413/orders' 
+  },
+  { 
+    name: 'Customers', 
+    icon: Users, 
+    path: '/admin2413/customers' 
   },
   { 
     name: 'Content', 

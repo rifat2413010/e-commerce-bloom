@@ -23,6 +23,7 @@ import ProductForm from "./pages/admin/ProductForm";
 import AdminCategories from "./pages/admin/AdminCategories";
 import CategoryForm from "./pages/admin/CategoryForm";
 import AdminOrders from "./pages/admin/AdminOrders";
+import AdminCustomers from "./pages/admin/AdminCustomers";
 import OrderDetail from "./pages/admin/OrderDetail";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminContent from "./pages/admin/AdminContent";
@@ -59,6 +60,7 @@ const App = () => (
               <Route path="/admin2413/categories/:id" element={<AdminRoute><CategoryForm /></AdminRoute>} />
               <Route path="/admin2413/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
               <Route path="/admin2413/orders/:id" element={<AdminRoute><OrderDetail /></AdminRoute>} />
+              <Route path="/admin2413/customers" element={<AdminRoute><AdminCustomers /></AdminRoute>} />
               <Route path="/admin2413/settings" element={<AdminRoute><AdminSettings /></AdminRoute>} />
               <Route path="/admin2413/content" element={<AdminRoute><AdminContent /></AdminRoute>} />
               <Route path="/admin2413/content/new" element={<AdminRoute><ContentForm /></AdminRoute>} />
