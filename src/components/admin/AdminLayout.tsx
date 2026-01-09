@@ -14,7 +14,8 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  Facebook
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -52,6 +53,11 @@ const menuItems = [
     name: 'Content', 
     icon: FileText, 
     path: '/admin2413/content' 
+  },
+  { 
+    name: 'Pixel & Tracking', 
+    icon: Facebook, 
+    path: '/admin2413/pixel' 
   },
   { 
     name: 'Settings', 
