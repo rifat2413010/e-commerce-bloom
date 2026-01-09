@@ -73,24 +73,24 @@ const Checkout = () => {
       if (error) throw error;
 
       // Fetch the created order to get order_number
-      const { data: order, error: fetchError } = await supabase
+      const { data: order } = await supabase
         .from('orders')
         .select('order_number')
         .eq('id', orderId)
-        .single();
+        .maybeSingle();
 
-      if (fetchError) throw fetchError;
+      const orderNumber = order?.order_number || orderId;
       
       clearCart();
       
       toast({
         title: "অর্ডার সফল হয়েছে!",
-        description: `অর্ডার নম্বর: ${order.order_number}`,
+        description: `অর্ডার নম্বর: ${orderNumber}`,
       });
 
       navigate('/order-success', { 
         state: { 
-          orderNumber: order.order_number, 
+          orderNumber: orderNumber, 
           customer: formData 
         } 
       });
