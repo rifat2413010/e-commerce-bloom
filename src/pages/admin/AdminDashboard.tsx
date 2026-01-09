@@ -13,7 +13,8 @@ import {
   CheckCircle,
   Truck,
   XCircle,
-  ArrowRight
+  ArrowRight,
+  Plus
 } from 'lucide-react';
 
 interface DashboardStats {
@@ -120,9 +121,25 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome to your admin panel</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <p className="text-muted-foreground">Welcome to your admin panel</p>
+        </div>
+        <div className="flex gap-2">
+          <Link to="/admin2413/products/new">
+            <Button className="gap-2">
+              <Plus className="h-4 w-4" />
+              Add Product
+            </Button>
+          </Link>
+          <Link to="/admin2413/categories/new">
+            <Button variant="outline" className="gap-2">
+              <Plus className="h-4 w-4" />
+              Add Category
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Stats Cards */}
