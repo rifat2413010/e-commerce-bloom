@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PageLoader from "@/components/layout/PageLoader";
+import TrackingProvider from "@/components/TrackingProvider";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
@@ -39,6 +40,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <TrackingProvider>
             <PageLoader />
             <Routes>
               {/* Public Routes */}
@@ -69,6 +71,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+          </TrackingProvider>
           </BrowserRouter>
         </CartProvider>
       </AuthProvider>
