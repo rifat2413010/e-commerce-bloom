@@ -1,9 +1,9 @@
 export interface Product {
   id: string;
   name: string;
-  nameEn: string;
+  nameEn?: string;
   description: string;
-  descriptionEn: string;
+  descriptionEn?: string;
   price: number;
   originalPrice?: number;
   image: string;
@@ -18,8 +18,8 @@ export interface Product {
   isActive: boolean;
   seoTitle?: string;
   seoDescription?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Category {
