@@ -54,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, style }) 
         {/* Price */}
         <div className="flex items-center justify-center gap-2">
           <span className="text-sm font-bold text-primary">Tk {product.price.toFixed(2)}</span>
-          {product.originalPrice && (
+          {product.originalPrice && product.originalPrice > product.price && (
             <span className="text-xs text-muted-foreground line-through">
               Tk {product.originalPrice.toFixed(2)}
             </span>
