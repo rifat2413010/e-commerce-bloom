@@ -15,7 +15,8 @@ import {
   Menu,
   X,
   ChevronRight,
-  Facebook
+  Facebook,
+  BarChart3
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -55,12 +56,17 @@ const menuItems = [
     path: '/admin2413/content' 
   },
   { 
-    name: 'Pixel & Tracking', 
+    name: 'Tracking Pixels', 
+    icon: BarChart3, 
+    path: '/admin2413/tracking-pixels' 
+  },
+  { 
+    name: 'Pixel (Legacy)', 
     icon: Facebook, 
     path: '/admin2413/pixel' 
   },
   { 
-    name: 'Settings', 
+    name: 'Settings',
     icon: Settings, 
     path: '/admin2413/settings' 
   },

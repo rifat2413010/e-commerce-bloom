@@ -28,6 +28,7 @@ import AdminCustomers from "./pages/admin/AdminCustomers";
 import OrderDetail from "./pages/admin/OrderDetail";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminPixel from "./pages/admin/AdminPixel";
+import AdminTrackingPixels from "./pages/admin/AdminTrackingPixels";
 import AdminContent from "./pages/admin/AdminContent";
 import ContentForm from "./pages/admin/ContentForm";
 
@@ -66,6 +67,7 @@ const App = () => (
               <Route path="/admin2413/customers" element={<AdminRoute><AdminCustomers /></AdminRoute>} />
               <Route path="/admin2413/settings" element={<AdminRoute><AdminSettings /></AdminRoute>} />
               <Route path="/admin2413/pixel" element={<AdminRoute><AdminPixel /></AdminRoute>} />
+              <Route path="/admin2413/tracking-pixels" element={<AdminRoute><AdminTrackingPixels /></AdminRoute>} />
               <Route path="/admin2413/content" element={<AdminRoute><AdminContent /></AdminRoute>} />
               <Route path="/admin2413/content/new" element={<AdminRoute><ContentForm /></AdminRoute>} />
               <Route path="/admin2413/content/:id" element={<AdminRoute><ContentForm /></AdminRoute>} />
