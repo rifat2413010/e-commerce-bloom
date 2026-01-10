@@ -401,6 +401,39 @@ export type Database = {
         }
         Relationships: []
       }
+      tracking_pixels: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          pages: string[]
+          pixel_id: string
+          pixel_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          pages?: string[]
+          pixel_id: string
+          pixel_type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          pages?: string[]
+          pixel_id?: string
+          pixel_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
