@@ -1,25 +1,125 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
-import { Minus, Plus, Heart, ArrowRightLeft, Search, MessageCircle, Shield, Truck, Leaf } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Minus, Plus, Heart, ArrowRightLeft, Search, MessageCircle, Shield, Truck, Leaf, Loader2 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
-import { products, siteSettings } from '@/data/mockData';
+import { siteSettings } from '@/data/mockData';
 import ProductCard from '@/components/product/ProductCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import QuickOrderDialog from '@/components/product/QuickOrderDialog';
 import logo from '@/assets/logo.png';
+import { supabase } from '@/integrations/supabase/client';
+import { Product } from '@/types';
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const product = products.find(p => p.id === id);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string>('500gm');
   const [showQuickOrder, setShowQuickOrder] = useState(false);
   const { addToCart } = useCart();
 
   const sizeOptions = ['250gm', '500gm'];
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id) return;
+      
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select(`
+            *,
+            categories:category_id (name)
+          `)
+          .eq('id', id)
+          .eq('is_active', true)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (data) {
+          const mappedProduct: Product = {
+            id: data.id,
+            name: data.name,
+            nameEn: data.name_en || undefined,
+            description: data.description || '',
+            descriptionEn: data.description_en || undefined,
+            price: Number(data.price),
+            originalPrice: data.original_price ? Number(data.original_price) : undefined,
+            image: data.image || '/placeholder.svg',
+            images: data.images || [],
+            category: (data.categories as any)?.name || 'Uncategorized',
+            categoryId: data.category_id || '',
+            unit: data.unit,
+            stock: data.stock,
+            isActive: data.is_active,
+            isBestSeller: data.is_best_seller,
+            isOffer: data.is_offer,
+            offerPercent: data.offer_percent || undefined,
+            createdAt: data.created_at,
+            updatedAt: data.updated_at,
+          };
+          setProduct(mappedProduct);
+
+          // Fetch related products
+          const { data: related } = await supabase
+            .from('products')
+            .select(`*, categories:category_id (name)`)
+            .eq('is_active', true)
+            .neq('id', id)
+            .limit(5);
+
+          if (related) {
+            setRelatedProducts(related.map(p => ({
+              id: p.id,
+              name: p.name,
+              nameEn: p.name_en || undefined,
+              description: p.description || '',
+              descriptionEn: p.description_en || undefined,
+              price: Number(p.price),
+              originalPrice: p.original_price ? Number(p.original_price) : undefined,
+              image: p.image || '/placeholder.svg',
+              images: p.images || [],
+              category: (p.categories as any)?.name || 'Uncategorized',
+              categoryId: p.category_id || '',
+              unit: p.unit,
+              stock: p.stock,
+              isActive: p.is_active,
+              isBestSeller: p.is_best_seller,
+              isOffer: p.is_offer,
+              offerPercent: p.offer_percent || undefined,
+              createdAt: p.created_at,
+              updatedAt: p.updated_at,
+            })));
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -37,10 +137,6 @@ const ProductDetail = () => {
       </div>
     );
   }
-
-  const relatedProducts = products.filter(
-    p => p.id !== product.id && p.isActive
-  ).slice(0, 5);
 
   const handleOrderNow = () => {
     setShowQuickOrder(true);
