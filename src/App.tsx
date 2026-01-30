@@ -14,6 +14,8 @@ import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import CategoryPage from "./pages/CategoryPage";
 import NotFound from "./pages/NotFound";
+import Support from "./pages/Support";
+import Search from "./pages/Search";
 
 // Admin imports
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -52,6 +54,8 @@ const App = () => (
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/order-success" element={<OrderSuccess />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/search" element={<Search />} />
               
               {/* Admin Routes */}
               <Route path="/admin2413" element={<AdminLogin />} />
