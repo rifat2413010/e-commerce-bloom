@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowRight } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import BottomNav from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { siteSettings } from '@/data/mockData';
@@ -16,7 +17,7 @@ const Cart = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      <main className="flex-1">
+      <main className="flex-1 pb-16 md:pb-0">
         <div className="container py-8">
           <h1 className="text-3xl font-bold text-foreground mb-8">আপনার কার্ট</h1>
 
@@ -156,6 +157,7 @@ const Cart = () => {
       </main>
 
       <Footer />
+      <BottomNav />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import BottomNav from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import ProductCard from '@/components/product/ProductCard';
 import { products, categories } from '@/data/mockData';
@@ -32,7 +33,7 @@ const CategoryPage = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      <main className="flex-1">
+      <main className="flex-1 pb-16 md:pb-0">
         <div className="container py-8">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm mb-6">
@@ -80,6 +81,7 @@ const CategoryPage = () => {
       </main>
 
       <Footer />
+      <BottomNav />
     </div>
   );
 };

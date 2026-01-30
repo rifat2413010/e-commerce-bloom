@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Minus, Plus, Heart, ArrowRightLeft, Search, MessageCircle, Shield, Truck, Leaf, Loader2 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import BottomNav from '@/components/layout/BottomNav';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { siteSettings } from '@/data/mockData';
@@ -157,7 +158,7 @@ const ProductDetail = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      <main className="flex-1">
+      <main className="flex-1 pb-16 md:pb-0">
         <div className="container py-6">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm mb-6">
@@ -453,6 +454,7 @@ const ProductDetail = () => {
         quantity={quantity}
         selectedSize={selectedSize}
       />
+      <BottomNav />
     </div>
   );
 };
